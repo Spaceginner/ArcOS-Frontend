@@ -4,8 +4,8 @@ import {
   FileBrowserSelectedFilename,
 } from "../../applogic/apps/FileBrowser/main";
 import { currentSettingsPage } from "../../applogic/apps/SettingsApp/main";
-import { WindowStore } from "../../applogic/store";
-import { ErrorWindowStore } from "../../errorlogic/app";
+import { AppStore } from "../../applogic/store";
+import { ErrorProcesses } from "../../errorlogic/app";
 import { CurrentFTSState } from "../../fts/main";
 import { CurrentLoginState, loginUsername } from "../../login/main";
 import { NotificationStore } from "../../notiflogic/main";
@@ -13,7 +13,7 @@ import { UserData, UserName } from "../../userlogic/interfaces";
 import type { DevModeTriggers } from "../interface";
 
 export const dmTriggers: DevModeTriggers = [
-  WindowStore,
+  AppStore,
   UserName,
   loginUsername,
   UserData,
@@ -22,7 +22,7 @@ export const dmTriggers: DevModeTriggers = [
   CurrentLoginState,
   NotificationStore,
   currentSettingsPage,
-  ErrorWindowStore,
+  ErrorProcesses,
   FileBrowserSelectedFilename,
   FileBrowserCurrentDir,
 ];

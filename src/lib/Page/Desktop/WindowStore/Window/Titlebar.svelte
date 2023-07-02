@@ -3,7 +3,7 @@
   import { getAppIcon } from "../../../../../ts/applogic/icon";
   import type { App } from "../../../../../ts/applogic/interface";
   import { updateStores } from "../../../../../ts/applogic/store";
-  import { closeError } from "../../../../../ts/errorlogic/main";
+  import { closeErrorProcess } from "../../../../../ts/errorlogic/main";
   import { UserData } from "../../../../../ts/userlogic/interfaces";
   import { titlebarButtons } from "../../../../../ts/window/titlebar/store";
   import Default from "./Controls/Default.svelte";
@@ -40,7 +40,7 @@
       ? parseInt(id.replace("error_", ""))
       : -1;
 
-    if (errorId > 0) closeError(errorId);
+    if (errorId > 0) closeErrorProcess(errorId);
     else closeWindow(app.id);
 
     if (isBoot) app.opened = false;

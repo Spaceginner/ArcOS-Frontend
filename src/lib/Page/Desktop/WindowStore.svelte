@@ -3,12 +3,10 @@
   import type { App } from "../../../ts/applogic/interface";
 
   import {
-    focusedWindowId,
-    getOpenedStore,
-    getWindow,
+    ProcessStore,
+    focusedProcessPid,
     isFullscreenWindow,
-    maxZIndex,
-    WindowStore,
+    maxZIndex
   } from "../../../ts/applogic/store";
   import { getWindowElement } from "../../../ts/window/main";
   import Window from "./WindowStore/Window.svelte";
@@ -20,7 +18,7 @@
 
     if (v) oa = v;
 
-    const openedStore = getOpenedStore();
+    const openedStore = get(ProcessStore);
 
     for (let i = 0; i < openedStore.length; i++) {
       if (openedStore[i].state.windowState.fll)
@@ -30,7 +28,7 @@
     isFullscreenWindow.set(false);
   });
 
-  focusedWindowId.subscribe((v) => {
+  focusedProcessPid.subscribe((v) => {
     if (getWindow(v)?.info.custom) return;
 
     $maxZIndex++;

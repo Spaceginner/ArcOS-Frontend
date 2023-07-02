@@ -1,30 +1,24 @@
 import { get } from "svelte/store";
-import { WindowStore } from "../applogic/store";
+import { AppStore, ProcessStore } from "../applogic/store";
 
-export function showOverlay(id: string, parentId: string) {
-  const ws = get(WindowStore);
+export function showOverlay(id: string, parentPid: number): boolean {
+  const processStore = get(ProcessStore);
 
-  for (let i = 0; i < ws.length; i++) {
-    if (ws[i].id == parentId) {
-      if (!ws[i].overlays || !ws[i].overlays[id]) return false;
+  if (!processStore[parentPid].overlayProcesses || !processStore[parentPid].overlayProcesses[id]) return false;
 
-      ws[i].overlays[id].show = true;
-    }
-  }
+  processStore[parentPid].overlayProcesses[id].show = true;
 
-  WindowStore.set(ws);
+  ProcessStore.set(processStore);
 }
 
-export function hideOverlay(id: string, parentId: string) {
-  const ws = get(WindowStore);
+export function hideOverlay(id: string, parentPid: number): boolean {
+  const processStore = get(ProcessStore);
 
-  for (let i = 0; i < ws.length; i++) {
-    if (ws[i].id == parentId) {
-      if (!ws[i].overlays || !ws[i].overlays[id]) return false;
+  if (!processStore[parentPid].overlayProcesses || !processStore[parentPid].overlayProcesses[id]) return false;
 
-      ws[i].overlays[id].show = false;
-    }
-  }
+  processStore[parentPid].overlayProcesses[id].show = false;
 
-  WindowStore.set(ws);
+  ProcessStore.set(processStore);
+
+  return true;
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import type { App } from "../../../../ts/applogic/interface";
-  import { getOpenedStore, WindowStore } from "../../../../ts/applogic/store";
+  import { getOpenedStore, AppStore } from "../../../../ts/applogic/store";
   import Spinner from "../../../Spinner.svelte";
 
   import TaskbarButton from "../Taskbar/TaskbarButton.svelte";
@@ -11,8 +11,8 @@
 
   let oa: App[] = [];
 
-  WindowStore.subscribe(() => {
-    oa = getOpenedStore();
+  AppStore.subscribe(() => {
+    oa = get(ProcessStore);
   });
 
   onMount(() => {

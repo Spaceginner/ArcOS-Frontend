@@ -1,11 +1,11 @@
 import { Log, LogLevel } from "../../console";
-import type { App, AppEvents } from "../interface";
-import { registerAppShortcuts } from "../keyboard/main";
+import type { Process, App, ProcessEvents } from "../interface";
+import { registerProcessShortcuts } from "../keyboard/main";
 
-export class AppRuntime {
-  app: App;
+export class ProcessRuntime {
+  process: Process;
 
-  constructor(appData: App, events: AppEvents = {}) {
+  constructor(appData: App, events: ProcessEvents = {}) {
     if (!appData.id) {
       Log({
         source: `applogic/runtime/main.ts`,
@@ -16,11 +16,11 @@ export class AppRuntime {
       return;
     }
 
-    this.app = appData;
-    this.app.events = events;
+    this.process.app = appData;
+    this.process.app.events = events;
 
-    if (!this.app.events.keyboardShortcuts) return;
+    if (!this.process.app.events.keyboardShortcuts) return;
 
-    registerAppShortcuts(this.app.id, this.app);
+    registerProcessShortcuts(this.process);
   }
 }

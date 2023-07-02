@@ -13,6 +13,7 @@ import { Log, LogLevel } from "../../../console";
 import { createOverlayableError } from "../../../errorlogic/overlay";
 import { hideOverlay, showOverlay } from "../../../window/overlay";
 import trash from "../../../../assets/apps/logger/clear.svg";
+import { getPID } from "../../pid";
 
 export let FileBrowserCurrentDir = writable<string>("./");
 export let FileBrowserDirContents = writable<UserDirectory>(defaultDirectory);
@@ -36,7 +37,7 @@ FileBrowserOpenCancelled.subscribe((v) => {
       buttons: [{ caption: "OK", action() {} }],
       image: warning,
     },
-    "FileManager"
+    getPID("FileManager")
   );
 
   FileBrowserOpenCancelled.set(false);
@@ -83,7 +84,7 @@ class FileBrowserClass {
   public async deleteItem(name: string, path: string) {
     FileBrowserDeletingFilename.set(name);
 
-    showOverlay("deletingItem", "FileManager");
+    showOverlay("deletingItem", getPID("FileManager"));
 
     const valid = await deleteItem(path);
 
@@ -96,7 +97,7 @@ class FileBrowserClass {
           buttons: [{ caption: "OK", action() {} }],
           image: trash,
         },
-        "FileManager"
+        getPID("FileManager")
       );
 
     FileBrowserSelectedFilename.set(null);
@@ -104,7 +105,7 @@ class FileBrowserClass {
     fbClass.refresh();
 
     setTimeout(() => {
-      hideOverlay("deletingItem", "FileManager");
+      hideOverlay("deletingItem", getPID("FileManager"));
     }, 100);
   }
 }

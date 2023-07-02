@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { WindowStore } from "../../applogic/store";
+import { AppStore, ProcessStore } from "../../applogic/store";
 
 export function getParentDirectory(p: string) {
   const split = p.split("/");
@@ -16,14 +16,15 @@ export function getParentDirectory(p: string) {
   return newPath;
 }
 
-export function closeFile(id: string) {
-  const ws = get(WindowStore);
+export function closeFile(pid: number) {
+  const processStore = get(ProcessStore);
 
-  for (let i = 0; i < ws.length; i++) {
-    if (ws[i].id == id) {
-      ws[i].openedFile = null;
+  for (const strI in processStore) {
+    const i = parseInt(strI)
+    if (processStore[i].id == pid) {
+      processStore[i].openedFile = null;
     }
   }
 
-  WindowStore.set(ws);
+  ProcessStore.set(processStore);
 }

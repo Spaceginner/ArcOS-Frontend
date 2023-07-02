@@ -2,7 +2,7 @@
   import "../../../css/desktop/arcfind.css";
   import { isPopulatable } from "../../../ts/applogic/checks";
   import { closeWindow } from "../../../ts/applogic/events";
-  import { WindowStore, maxZIndex } from "../../../ts/applogic/store";
+  import { AppStore, maxZIndex } from "../../../ts/applogic/store";
   import type { SearchItem } from "../../../ts/search/interface";
   import { Search, showArcFind } from "../../../ts/search/main";
   import sleep from "../../../ts/sleep";
@@ -148,7 +148,7 @@
   {/if}
 
   <div class="apps" class:hide={!!query}>
-    {#each $WindowStore as app}
+    {#each $AppStore as app}
       {#if isPopulatable(app)}
         <AppListItem {app} onopen={() => ($showArcFind = false)} />
       {/if}

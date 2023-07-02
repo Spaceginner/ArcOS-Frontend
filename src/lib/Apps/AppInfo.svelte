@@ -1,14 +1,12 @@
 <script lang="ts">
   import "../../css/desktop/apps/AppInfo.css";
   import { AppInfoId as id } from "../../ts/applogic/apps/AppInfo";
-  import { AppPokerData } from "../../ts/applogic/apps/AppManager/Manager";
   import { isDisabled } from "../../ts/applogic/checks";
   import { disableApp, enableApp } from "../../ts/applogic/enabling";
-  import { openWindow } from "../../ts/applogic/events";
   import { getAppIcon } from "../../ts/applogic/icon";
   import { SystemApps } from "../../ts/applogic/imports/store";
   import type { App } from "../../ts/applogic/interface";
-  import { getWindow, WindowStore } from "../../ts/applogic/store";
+  import { getWindow } from "../../ts/applogic/store";
 
   let data: App;
   let isEnabled = true;
@@ -39,12 +37,6 @@
     isEnabled = !getWindow($id).disabled;
 
     disablePoke = isDisabled("AppPoker");
-  }
-
-  function poke() {
-    if (data.core) return;
-
-    AppPokerData.set(data);
   }
 </script>
 
@@ -77,7 +69,7 @@
   <div class="properties">
     <div class="property">
       <div>Size:</div>
-      <div class="value">{data.size.w || d}x{data.size.h || d}</div>
+      <div class="value">{data.initialSize.w || d}x{data.initialSize.h || d}</div>
     </div>
     <div class="property">
       <div>Minimal size:</div>

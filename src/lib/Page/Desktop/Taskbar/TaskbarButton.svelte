@@ -3,10 +3,10 @@
   import { getAppIcon, getOriginalIcon } from "../../../../ts/applogic/icon";
   import type { App } from "../../../../ts/applogic/interface";
   import {
-    focusedWindowId,
+    focusedProcessPid,
     maxZIndex,
     updateStores,
-    WindowStore,
+    AppStore,
   } from "../../../../ts/applogic/store";
   import { UserData } from "../../../../ts/userlogic/interfaces";
   import { getWindowElement } from "../../../../ts/window/main";
@@ -20,19 +20,19 @@
     showLabel = v.sh.taskbar.labels;
   });
 
-  WindowStore.subscribe(() => {
+  AppStore.subscribe(() => {
     minimized = isMinimized(app.id);
   });
 
   function e() {
-    if ($focusedWindowId == app.id)
+    if ($focusedProcessPid == app.id)
       app.state.windowState.min = !app.state.windowState.min;
     else app.state.windowState.min = false;
 
     updateStores();
 
     $maxZIndex++;
-    $focusedWindowId = app.id;
+    $focusedProcessPid = app.id;
 
     const window = getWindowElement(app);
 
@@ -44,7 +44,7 @@
   class="appbutton"
   class:minimized
   on:click={e}
-  class:activated={app.id == $focusedWindowId}
+  class:activated={app.id == $focusedProcessPid}
 >
   <img
     src={getOriginalIcon(app.id) || getAppIcon(app)}

@@ -8,11 +8,11 @@
   } from "../../../../ts/applogic/error";
   import type { App } from "../../../../ts/applogic/interface";
   import {
-    draggingId,
+    draggingPid,
     leftZoneTriggered,
     rightZoneTriggered,
   } from "../../../../ts/applogic/snapzones/store";
-  import { focusedWindowId, WindowStore } from "../../../../ts/applogic/store";
+  import { focusedProcessPid, AppStore } from "../../../../ts/applogic/store";
   import { UserData } from "../../../../ts/userlogic/interfaces";
   import OverlayableErrorWindow from "./OverlayableErrorWindow.svelte";
   import OverlayableWindow from "./OverlayableWindow.svelte";
@@ -35,13 +35,13 @@
   export let exttransition = false;
 
   onMount(() => {
-    focusedWindowId.set(app.id);
+    focusedProcessPid.set(app.id);
 
     update();
   });
 
   function update() {
-    if (app.minSize.w > app.size.w || app.minSize.h > app.size.h)
+    if (app.minSize.w > app.initialSize.w || app.minSize.h > app.initialSize.h)
       return minSizeExceedsLiteral(app);
 
     if (app.maxSize.w < app.minSize.w || app.maxSize.h < app.minSize.h)
@@ -54,17 +54,17 @@
     if (!app.info.custom) dragWindow(app, window, titlebar);
   }
 
-  WindowStore.subscribe(() => {
+  AppStore.subscribe(() => {
     if (app.opened && !app.info.custom) dragWindow(app, window, titlebar);
 
     update();
   });
 
   function handleMouse() {
-    $focusedWindowId = app.id;
+    $focusedProcessPid = app.id;
   }
 
-  focusedWindowId.subscribe((v) => {
+  focusedProcessPid.subscribe((v) => {
     if (!app || !app.events) return;
 
     if (v == app.id && app.events.focus) app.events.focus(app);
@@ -78,7 +78,7 @@
 
 <window
   class:window={!app.info.custom}
-  class:focused={app.id == $focusedWindowId}
+  class:focused={app.id == $focusedProcessPid}
   class:headless={app.state.headless || app.state.windowState.fll}
   class:resizable={app.state.resizable}
   class:min={app.state.windowState.min}
@@ -91,7 +91,7 @@
   class:custom={app.info.custom}
   class:child={!!app.parentId}
   class:snapped={app.snapped}
-  class:snapping={app.id == $draggingId &&
+  class:snapping={app.id == $draggingPid &&
     ($leftZoneTriggered || $rightZoneTriggered)}
   style={cssString}
   id={app.id}

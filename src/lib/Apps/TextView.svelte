@@ -8,7 +8,7 @@
     TextEditorContent,
   } from "../../ts/applogic/apps/TextEditor/main";
   import type { App } from "../../ts/applogic/interface";
-  import { WindowStore } from "../../ts/applogic/store";
+  import { AppStore } from "../../ts/applogic/store";
   import { tryParse } from "../../ts/json";
   import Actions from "./TextView/Actions.svelte";
   import Bottom from "./TextView/Bottom.svelte";

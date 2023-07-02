@@ -1,6 +1,6 @@
 <script lang="ts">
   import "../../../../css/desktop/apps/settings/apps.css";
-  import { WindowStore } from "../../../../ts/applogic/store";
+  import { AppStore } from "../../../../ts/applogic/store";
   import AppButton from "./Apps/AppButton.svelte";
   import HiddenAppButton from "./Apps/HiddenAppButton.svelte";
 
@@ -9,7 +9,7 @@
 
   let showHidden = false;
 
-  WindowStore.subscribe((v) => {
+  AppStore.subscribe((v) => {
     hidden = [];
     visible = [];
 

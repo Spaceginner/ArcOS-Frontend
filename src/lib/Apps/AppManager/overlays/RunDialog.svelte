@@ -2,7 +2,7 @@
   import icon from "../../../../assets/apps/settings/apps.svg";
   import { isDisabled, isOpened } from "../../../../ts/applogic/checks";
   import { openWindow } from "../../../../ts/applogic/events";
-  import { WindowStore } from "../../../../ts/applogic/store";
+  import { AppStore } from "../../../../ts/applogic/store";
   import { hideOverlay } from "../../../../ts/window/overlay";
 
   let value: string;
@@ -25,7 +25,7 @@
       Select the ID of the app you want to run from the following list:
     </p>
     <select bind:value>
-      {#each $WindowStore as window}
+      {#each $AppStore as window}
         {#if !isOpened(window.id) && !window.info.custom && !isDisabled(window.id)}
           <option value={window.id}>{window.id}</option>
         {/if}

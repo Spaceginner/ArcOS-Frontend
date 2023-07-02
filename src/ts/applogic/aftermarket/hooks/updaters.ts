@@ -3,11 +3,11 @@ import { Log, LogLevel } from "../../../console";
 import { ErrorMessages } from "../../../errorlogic/app";
 import { NotificationStore } from "../../../notiflogic/main";
 import { UserData } from "../../../userlogic/interfaces";
-import { WindowStore } from "../../store";
+import { AppStore } from "../../store";
 import { assignHooks } from "../hooks";
 
 export const hookUpdatable: Writable<any>[] = [
-  WindowStore,
+  AppStore,
   NotificationStore,
   ErrorMessages,
   UserData,

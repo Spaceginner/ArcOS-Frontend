@@ -33,7 +33,7 @@ export class ArcTermUtil {
   }
 
   public flushAccent() {
-    if (this.term.app) return;
+    if (this.term.process) return;
 
     this.term.target.setAttribute(
       "style",

@@ -1,64 +1,45 @@
 import { get, writable, Writable } from "svelte/store";
 import { Log, LogLevel } from "../console";
-import type { App } from "./interface";
+import type { App, Process } from "./interface";
 
-export const OpenedStore: Writable<App[]> = writable<App[]>([]);
-export const WindowStore: Writable<App[]> = writable<App[]>([]);
+export const AppStore: Writable<{[id:string]: App}> = writable<{[id:string]: App}>({});
+export const ProcessStore: Writable<{[pid:number]: Process}> = writable<{[pid:number]: Process}>({});
 export const isFullscreenWindow: Writable<boolean> = writable<boolean>(false);
 export const maxZIndex = writable<number>(1e9);
-export const focusedWindowId: Writable<string> = writable<string>(null);
+export const focusedProcessPid: Writable<number> = writable<number>(null);
 
-export function getWindow(id: string): App {
-  const ws = get(WindowStore);
-
-  for (let i = 0; i < ws.length; i++) {
-    if (ws[i] && ws[i].id == id) return ws[i];
-  }
-
-  return null;
+export function getApp(id: string): App {
+  return get(AppStore)[id];
 }
 
-export function getOpenedStore() {
-  const ws = get(WindowStore);
-  const x = [];
-
-  for (let i = 0; i < ws.length; i++) {
-    if (ws[i].opened) x.push(ws[i]);
-  }
-
-  return x;
-}
-
-export function updateStores() {
+ProcessStore.subscribe((processStore) => {
   Log({
-    msg: `Flushing all stores`,
-    source: "store.ts: updateStores",
-    level: LogLevel.info,
+    msg: "Updating isFullscreenWindow",
+    source: "store.ts: ProcessStore Subscriber",
+    level: LogLevel.info
   });
-
-  const ws = get(WindowStore);
-  const oa = getOpenedStore();
 
   isFullscreenWindow.set(false);
 
-  for (let i = 0; i < oa.length; i++) {
-    const windowData = getWindow(oa[i].id);
-
-    if (windowData) oa[i] = windowData;
-
-    if (
-      oa[i] &&
-      oa[i] &&
-      oa[i].state.windowState.fll &&
-      !oa[i].state.windowState.min
-    ) {
-      isFullscreenWindow.set(true);
-    }
+  for (const strI in processStore) {
+    const i = parseInt(strI);
+    const windowState = processStore[i].windowState;
+  
+    if (windowState.fullscreen && !windowState.minimized) isFullscreenWindow.set(true);
   }
+});
 
-  WindowStore.set(ws);
+// DUMMY FUNCTION
+export function getWindow(appId: string) {
+
 }
 
-WindowStore.subscribe(() => {
-  OpenedStore.set(getOpenedStore());
-});
+// DUMMY FUNCTION
+export function updateStores() {
+
+}
+
+// DUMMY FUNCTION
+export function getOpenedStore() {
+  
+}

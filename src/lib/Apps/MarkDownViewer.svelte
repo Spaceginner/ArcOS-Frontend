@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { App } from "../../ts/applogic/interface";
-  import { getWindow, WindowStore } from "../../ts/applogic/store";
+  import { getWindow, AppStore } from "../../ts/applogic/store";
   import SvelteMarkdown from "svelte-markdown";
   import "../../css/desktop/apps/markdownviewer.css";
   import { TextEditorContent } from "../../ts/applogic/apps/TextEditor/main";
@@ -13,7 +13,7 @@
   let md = "";
   let content = "";
 
-  WindowStore.subscribe(() => {
+  AppStore.subscribe(() => {
     const textViewer = getWindow("TextEditor");
 
     if (!app) return;

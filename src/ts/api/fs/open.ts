@@ -2,8 +2,8 @@ import { get } from "svelte/store";
 import { OpenWithFile } from "../../applogic/apps/OpenWith";
 import { isDisabled } from "../../applogic/checks";
 import { enableApp } from "../../applogic/enabling";
-import { openWindow } from "../../applogic/events";
-import { focusedWindowId, WindowStore } from "../../applogic/store";
+import { createProcess } from "../../applogic/events";
+import { focusedProcessPid, AppStore } from "../../applogic/store";
 import { Log, LogLevel } from "../../console";
 import { errorMessage } from "../../errorlogic/main";
 import type { ArcFile, PartialArcFile, UserFileLoader } from "../interface";
@@ -19,7 +19,7 @@ export function findAppToOpen(mime: string): string[] {
 
   const ids: string[] = [];
 
-  const ws = get(WindowStore);
+  const ws = get(AppStore);
 
   for (let i = 0; i < ws.length; i++) {
     if (!ws[i].fileMimes) continue;
@@ -58,7 +58,7 @@ export function getAllFileHandlers(): string[] {
 
   const ids: string[] = [];
 
-  const ws = get(WindowStore);
+  const ws = get(AppStore);
 
   for (let i = 0; i < ws.length; i++) {
     if (ws[i].fileMimes) ids.push(ws[i].id);
@@ -82,7 +82,7 @@ export function openWithDialog(file: ArcFile) {
 
           OpenWithFile.set(file);
 
-          openWindow("OpenWithApp");
+          createProcess("OpenWithApp");
         },
       }
     );
@@ -96,7 +96,7 @@ export function openWithDialog(file: ArcFile) {
 
   OpenWithFile.set(file);
 
-  openWindow("OpenWithApp");
+  createProcess("OpenWithApp");
 }
 
 export function openWith(
@@ -110,7 +110,7 @@ export function openWith(
     level: LogLevel.info,
   });
 
-  const ws = get(WindowStore);
+  const ws = get(AppStore);
 
   for (let i = 0; i < ws.length; i++) {
     const window = ws[i];
@@ -123,8 +123,8 @@ export function openWith(
 
     window.openedFile = data;
 
-    openWindow(appId);
-    focusedWindowId.set(appId);
+    createProcess(appId);
+    focusedProcessPid.set(appId);
 
     if (window.events && window.events.openFile) window.events.openFile(window);
 

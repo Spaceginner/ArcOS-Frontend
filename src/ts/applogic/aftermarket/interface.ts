@@ -23,8 +23,8 @@ export type ExtendedWindow = {
       deleteNotification(id: string);
       closeNotification();
       closeError(id: number);
-      createOverlayableError(error: OverlayableError, targetId: string);
-      destroyOverlayableError(errorId: string, ownerId: string);
+      createOverlayableError(error: OverlayableError, targetPid: number): boolean;
+      destroyOverlayableError(errorId: number, ownerPid: number): boolean;
     };
     api: {
       apiHost: Writable<string>;
@@ -36,19 +36,17 @@ export type ExtendedWindow = {
     loadWindow: (id: string, app: App) => void;
     loadExternalApp: (info: ExternalAppLoaderContent) => void;
     windowLogic: {
-      windowStore: Writable<App[]>;
-      openWindow(id: string, openChild?: boolean);
-      openChildWindow(parent: App, childId: string);
-      closeChildWindow(parent: App, childId: string);
-      closeWindow(id: string);
-      maximizeWindow(app: App);
-      minimizeWindow(app: App);
-      fullscreenWindow(app: App);
-      headlessToggle(app: App);
+      appStore: Writable<{[id:string]: App}>;
+      createProcess(appId: string, parentPid?: number): number | null;
+      closeProcess(pid: number);
+      toggleWindowMaximization(pid: number);
+      toggleWindowMinimization(pid: number);
+      toggleWindowFullscreenization(pid: number);
+      toggleHeadlessWindowProperty(pid: number);
     };
     overlay: {
-      showOverlay(id: string, parentId: string);
-      hideOverlay(id: string, parentId: string);
+      showOverlay(id: number, parentPid: number): boolean;
+      hideOverlay(id: number, parentPid: number): boolean;
     };
   };
 } & Window &

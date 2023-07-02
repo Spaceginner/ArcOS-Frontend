@@ -2,7 +2,7 @@ import { get, writable } from "svelte/store";
 import { ConnectedServer } from "../../api/main";
 import { Log, LogLevel } from "../../console";
 import { ErrorMessages } from "../../errorlogic/app";
-import { closeError, errorMessage } from "../../errorlogic/main";
+import { closeErrorProcess, errorMessage } from "../../errorlogic/main";
 import {
   createOverlayableError,
   destroyOverlayableError,
@@ -14,23 +14,20 @@ import {
   NotificationStore,
 } from "../../notiflogic/main";
 import {
-  defaultUserData,
   UserData,
   UserName,
 } from "../../userlogic/interfaces";
 import { hideOverlay, showOverlay } from "../../window/overlay";
 import {
-  closeChildWindow,
-  closeWindow,
-  fullscreenWindow,
-  headlessToggle,
-  maximizeWindow,
-  minimizeWindow,
-  openChildWindow,
-  openWindow,
+  closeProcess,
+  toggleWindowFullscreenization,
+  toggleHeadlessWindowProperty,
+  toggleWindowMaximization,
+  toggleWindowMinimization,
+  createProcess,
 } from "../events";
-import { loadWindow } from "../load";
-import { WindowStore } from "../store";
+import { loadApp } from "../load";
+import { AppStore } from "../store";
 import type { ExtendedWindow } from "./interface";
 import { loadExternalApp } from "./loader";
 
@@ -38,7 +35,7 @@ export function assignHooks() {
   const win = window as ExtendedWindow;
 
   win.__arcos = {
-    loadWindow,
+    loadWindow: loadApp,
     loadExternalApp,
     api: {
       apiHost: ConnectedServer,
@@ -48,15 +45,13 @@ export function assignHooks() {
       userData: UserData,
     },
     windowLogic: {
-      openWindow,
-      openChildWindow,
-      closeChildWindow,
-      closeWindow,
-      maximizeWindow,
-      minimizeWindow,
-      fullscreenWindow,
-      headlessToggle,
-      windowStore: WindowStore,
+      createProcess,
+      closeProcess,
+      toggleWindowMaximization,
+      toggleWindowMinimization,
+      toggleWindowFullscreenization: toggleWindowFullscreenization,
+      toggleHeadlessWindowProperty,
+      appStore: AppStore,
     },
     overlay: {
       showOverlay,
@@ -69,7 +64,7 @@ export function assignHooks() {
       deleteNotification,
       closeNotification,
       errorMessage,
-      closeError,
+      closeError: closeErrorProcess,
       createOverlayableError,
       destroyOverlayableError,
     },

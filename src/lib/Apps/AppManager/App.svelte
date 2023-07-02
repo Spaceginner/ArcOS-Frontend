@@ -1,6 +1,6 @@
 <script lang="ts">
   import { appManSelected } from "../../../ts/applogic/apps/AppManager/store";
-  import { isDisabled, isOpened } from "../../../ts/applogic/checks";
+  import { isDisabled } from "../../../ts/applogic/checks";
   import { getAppIcon, getOriginalIcon } from "../../../ts/applogic/icon";
   import type { App } from "../../../ts/applogic/interface";
 
@@ -12,7 +12,7 @@
   }
 </script>
 
-{#if app && ((!isDisabled(app.id) && isOpened(app.id)) || error)}
+{#if app && ((!isDisabled(app.id)) || error)}
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div
     class="appinstance"

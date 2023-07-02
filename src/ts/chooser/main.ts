@@ -1,29 +1,18 @@
 import { get } from "svelte/store";
-import { WindowStore } from "../applogic/store";
-import { generateChooserOverlayData } from "./data";
+import { ProcessStore } from "../applogic/store";
+import { generateChooserOverlayProcess } from "./data";
 import { assignTarget } from "./store";
 
-export function showOpenFileDialog(targetId: string) {
-  const ws = get(WindowStore);
+export function showOpenFileDialog(targetPid: number) {
+  const processStore = get(ProcessStore);
 
-  let index = null;
+  const overlay = generateChooserOverlayProcess();
 
-  for (let i = 0; i < ws.length; i++) {
-    if (ws[i].id == targetId) {
-      index = i;
-      break;
-    }
-  }
+  assignTarget(overlay.id, targetPid);
 
-  if (index == null) return false;
+  if (!processStore[targetPid].overlayProcesses) processStore[targetPid].overlayProcesses = {};
 
-  const overlay = generateChooserOverlayData();
+  processStore[targetPid].overlayProcesses[overlay.id] = overlay;
 
-  assignTarget(overlay.id, targetId);
-
-  if (!ws[index].overlays) ws[index].overlays = {};
-
-  ws[index].overlays[overlay.id] = overlay;
-
-  WindowStore.set(ws);
+  ProcessStore.set(processStore);
 }

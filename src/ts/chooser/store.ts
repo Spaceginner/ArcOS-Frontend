@@ -1,32 +1,34 @@
 import { get, writable } from "svelte/store";
 import type { ArcFile, Params } from "../api/interface";
-import { WindowStore } from "../applogic/store";
+import { AppStore, ProcessStore } from "../applogic/store";
 import type { ChooseDialogTargets } from "./interface";
 
 export const chooseTargets: ChooseDialogTargets = writable<Params>({});
 
-export function setTargetFile(id: string, file: ArcFile): boolean {
+export function setTargetFile(id: number, file: ArcFile): boolean {
   const targets = get(chooseTargets);
   const targetId = targets[id];
 
-  const ws = get(WindowStore);
+  const processStore = get(ProcessStore);
 
   let index = null;
 
-  for (let i = 0; i < ws.length; i++) {
-    if (ws[i].id == targetId) index = i;
+  for (const strI in processStore) {
+    const i = parseInt(strI);
+    if (processStore[i].id == targetId) index = i;
   }
 
   if (index == null) return false;
 
-  ws[index].openedFile = file;
+  processStore[index].openedFile = file;
 
-  if (ws[index].events && ws[index].events.openFile)
-    ws[index].events.openFile(ws[index]);
+  const processEvents = processStore[index].app.events;
+  if (processEvents && processEvents.openFile)
+    processEvents.openFile(processStore[index].id);
 
-  delete ws[index].overlays[id];
+  delete processStore[index].overlayProcesses[id];
 
-  WindowStore.set(ws);
+  ProcessStore.set(processStore);
 
   delete targets[id];
 
@@ -41,12 +43,12 @@ export function getChooserTarget(id: string): string | false {
   return targets[id] || false;
 }
 
-export function assignTarget(id: string, targetId: string): boolean {
+export function assignTarget(pid: number, targetPid: number): boolean {
   const targets = get(chooseTargets);
 
-  if (targets[id]) return false;
+  if (targets[pid]) return false;
 
-  targets[id] = targetId;
+  targets[pid] = targetPid;
 
   chooseTargets.set(targets);
 

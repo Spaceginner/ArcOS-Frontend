@@ -1,6 +1,5 @@
 <script lang="ts">
   import overlays from "../../../assets/apps/default.svg";
-  import { isOpened } from "../../../ts/applogic/checks";
   import type { App, OverlayableApp } from "../../../ts/applogic/interface";
 
   export let id: string;

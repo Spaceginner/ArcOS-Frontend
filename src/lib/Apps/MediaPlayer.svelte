@@ -4,7 +4,7 @@
   import { getMimeIcon } from "../../ts/api/fs/icon";
   import type { App } from "../../ts/applogic/interface";
   import { registerShortcuts } from "../../ts/applogic/keyboard/main";
-  import { WindowStore } from "../../ts/applogic/store";
+  import { AppStore } from "../../ts/applogic/store";
 
   let audioObject: HTMLAudioElement;
 
@@ -17,7 +17,7 @@
   let filename = "";
   let paused = true;
 
-  WindowStore.subscribe(() => {
+  AppStore.subscribe(() => {
     if (!app.openedFile || !audioObject || filename == app.openedFile.name)
       return;
 

@@ -1,5 +1,5 @@
 import { get, writable } from "svelte/store";
-import { focusedWindowId } from "../applogic/store";
+import { focusedProcessPid } from "../applogic/store";
 import { Log, LogLevel } from "../console";
 import { UserName } from "../userlogic/interfaces";
 import type { ArcTermEnv } from "./env";
@@ -92,7 +92,7 @@ export class ArcTermInput {
     wrap.append(inner);
 
     setTimeout(() => {
-      if (this.term.app && get(focusedWindowId) == this.term.app.id)
+      if (this.term.process && get(focusedProcessPid) == this.term.process.id)
         input.focus();
     });
 

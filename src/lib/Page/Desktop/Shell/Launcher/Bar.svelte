@@ -4,7 +4,7 @@
   import { closeWindow, openWindow } from "../../../../../ts/applogic/events";
   import type { App } from "../../../../../ts/applogic/interface";
   import {
-    WindowStore,
+    AppStore,
     getOpenedStore,
     maxZIndex,
   } from "../../../../../ts/applogic/store";
@@ -18,7 +18,7 @@
   let dockfocused = false;
   let interval: NodeJS.Timeout;
 
-  WindowStore.subscribe(() => {
+  AppStore.subscribe(() => {
     oa = getOpenedStore();
   });
 

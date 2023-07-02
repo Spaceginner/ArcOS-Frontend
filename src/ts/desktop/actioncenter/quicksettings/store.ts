@@ -1,8 +1,7 @@
-import { openWindow } from "../../../applogic/events";
+import { createProcess } from "../../../applogic/events";
 import { showArcFind } from "../../../search/main";
 import { UserData } from "../../../userlogic/interfaces";
-import { reloadApps } from "../../../window/reload";
-import { ActionCenterOpened } from "../main";
+import { actionCenterOpened } from "../main";
 import type { QuickSetting } from "./interface";
 
 export const QuickSettings: QuickSetting[] = [
@@ -120,7 +119,7 @@ export const QuickSettings: QuickSetting[] = [
       return false;
     },
     setter() {
-      openWindow("Exit");
+      createProcess("Exit");
       return false;
     },
     caption: "Exit",

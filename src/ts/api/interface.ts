@@ -3,7 +3,7 @@ export interface Cred {
   password: string;
 }
 
-export type Params = { [key: string]: string };
+export type Params = { [key: number]: number };
 
 export interface ApiError {
   title: string;

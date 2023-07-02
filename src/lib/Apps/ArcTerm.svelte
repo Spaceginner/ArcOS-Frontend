@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import "../../css/desktop/apps/arcterm.css";
-  import { fullscreenToggle } from "../../ts/applogic/events";
+  import { toggleWindowFullscreenization } from "../../ts/applogic/events";
   import type { App } from "../../ts/applogic/interface";
   import { ArcTerm } from "../../ts/terminal/main";
   import { arcCommands, desktopSpecific } from "../../ts/terminal/store";
-  import { focusedWindowId } from "../../ts/applogic/store";
+  import { focusedProcessPid } from "../../ts/applogic/store";
 
   export let app: App;
 
@@ -33,7 +33,7 @@
         );
       }
 
-      if (app.state.windowState.fll) fullscreenToggle(app.id);
+      if (app.state.windowState.fll) toggleWindowFullscreenization(app.id);
     };
 
     app.events.blur = () => {
@@ -52,7 +52,7 @@
       !arcTerm ||
       !arcTerm.input ||
       !arcTerm.input.current ||
-      $focusedWindowId != "ArcTerm"
+      $focusedProcessPid != "ArcTerm"
     )
       return;
 

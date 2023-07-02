@@ -1,13 +1,13 @@
 <script lang="ts">
   import "../../css/desktop/apps/imageviewer.css";
   import type { App } from "../../ts/applogic/interface";
-  import { WindowStore } from "../../ts/applogic/store";
+  import { AppStore } from "../../ts/applogic/store";
 
   export let app: App;
 
   let url = "";
 
-  WindowStore.subscribe(() => {
+  AppStore.subscribe(() => {
     if (!app.openedFile) return (url = "");
 
     const blob = new Blob([new Uint8Array(app.openedFile.data)], {

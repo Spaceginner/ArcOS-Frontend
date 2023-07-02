@@ -1,11 +1,9 @@
 <script lang="ts">
   import { appManSelected } from "../../../ts/applogic/apps/AppManager/store";
   import {
-    getWindow,
-    OpenedStore,
-    WindowStore,
+    getWindow
   } from "../../../ts/applogic/store";
-  import { ErrorWindowStore } from "../../../ts/errorlogic/app";
+  import { ErrorProcesses } from "../../../ts/errorlogic/app";
 </script>
 
 <div class="bottombar">
@@ -22,7 +20,7 @@
       Loaded: {$WindowStore.length}
     </div>
     <div class="section">
-      Dialogs: {$ErrorWindowStore.length}
+      Dialogs: {$ErrorProcesses.length}
     </div>
   </div>
 </div>

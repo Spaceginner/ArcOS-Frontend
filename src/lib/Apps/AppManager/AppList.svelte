@@ -1,12 +1,11 @@
 <script lang="ts">
   import type { App } from "../../../ts/applogic/interface";
-  import { WindowStore } from "../../../ts/applogic/store";
-  import { ErrorWindowStore } from "../../../ts/errorlogic/app";
+  import { ErrorProcesses } from "../../../ts/errorlogic/app";
   import Branch from "./Branch.svelte";
 
   let es: App[] = [];
 
-  ErrorWindowStore.subscribe((v) => {
+  ErrorProcesses.subscribe((v) => {
     es = v;
   });
 </script>

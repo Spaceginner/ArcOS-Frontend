@@ -8,7 +8,7 @@
   import {
     isFullscreenWindow,
     updateStores,
-    WindowStore as WStore,
+    AppStore as WStore,
   } from "../../ts/applogic/store";
   import {
     assignDesktopListeners,
